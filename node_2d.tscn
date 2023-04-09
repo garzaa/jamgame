@@ -1,10 +1,24 @@
-[gd_scene load_steps=8 format=3 uid="uid://d7fp5bvimyr1"]
+[gd_scene load_steps=9 format=3 uid="uid://d7fp5bvimyr1"]
 
-[ext_resource type="Script" path="res://TestScript.gd" id="1_rk41w"]
 [ext_resource type="Texture2D" uid="uid://bod1avistm0dg" path="res://guy.png" id="2_itcef"]
 [ext_resource type="Texture2D" uid="uid://b8ccpfwo1ipo7" path="res://stoneblock.png" id="3_1ui86"]
+[ext_resource type="Script" path="res://GuyController.gd" id="3_cvf87"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_amklk"]
+[sub_resource type="GDScript" id="GDScript_5hsqv"]
+script/source = "extends Node
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lmt4a"]
 radius = 8.0
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_8b47t"]
@@ -13,11 +27,11 @@ radius = 8.0
 resource_name = "Stone"
 texture = ExtResource("3_1ui86")
 use_texture_padding = false
-0:0/next_alternative_id = 2
+0:0/next_alternative_id = 3
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
-0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, -8, 8)
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, 8, 8, -8, 8)
 0:0/1 = 1
 0:0/1/flip_h = true
 0:0/1/physics_layer_0/linear_velocity = Vector2(0, 0)
@@ -139,7 +153,7 @@ use_texture_padding = false
 3:5/0 = 0
 3:5/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 3:5/0/physics_layer_0/angular_velocity = 0.0
-3:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, 8, 24, -8, 24, 8, -8, 8)
+3:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, 8, 8, -8, 8)
 3:0/size_in_atlas = Vector2i(2, 1)
 3:0/next_alternative_id = 2
 3:0/0 = 0
@@ -165,20 +179,21 @@ sources/1 = SubResource("TileSetAtlasSource_4iqrx")
 [node name="Node2D" type="Node2D"]
 
 [node name="Camera2D" type="Camera2D" parent="."]
-script = ExtResource("1_rk41w")
+position = Vector2(8, -56)
+zoom = Vector2(3, 3)
+script = SubResource("GDScript_5hsqv")
 
 [node name="Guy" type="Sprite2D" parent="."]
 position = Vector2(8, -57)
 texture = ExtResource("2_itcef")
 
-[node name="RigidBody2D" type="RigidBody2D" parent="Guy"]
+[node name="CharacterBody2D" type="CharacterBody2D" parent="Guy"]
+script = ExtResource("3_cvf87")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Guy/RigidBody2D"]
-shape = SubResource("CircleShape2D_amklk")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Guy/CharacterBody2D"]
+shape = SubResource("CircleShape2D_lmt4a")
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_3o11s")
 format = 2
 layer_0/tile_data = PackedInt32Array(0, 65537, 1, 1, 65537, 1, 2, 65537, 1, -65533, 196609, 0, 3, 65537, 3, 65535, 65537, 1, 65534, 65537, 1, 65533, 65537, 1, -5, 196609, 65536, 65532, 65537, 1, 65531, 65537, 2, -65531, 65537, 1, -65530, 65537, 1, -65542, 65537, 1, -131078, 65537, 1, -196614, 65537, 1, -262150, 65537, 1, -131065, 131073, 1, -196601, 131073, 1, -262137, 131073, 1, -327673, 131073, 1, -393209, 131073, 1, -327686, 65537, 1, -393222, 65537, 1)
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="TileMap"]
